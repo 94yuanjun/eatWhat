@@ -1,10 +1,195 @@
-<!DOCTYPE>
+<!HTML DOCTYPE>
 <html>
-    <head>
-    </head>
-    <body>
-        <div> 
-          dsdas
-        </div>
-    </body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<style>
+		.writeBtn{
+			border-radius:7px;
+			background-color:#119ede;
+			width:30rem;
+			padding:4rem 0;
+			text-align:center;
+			position:absolute;
+			top:50%;
+			left:calc((100% - 30rem)/2);
+			font-size:2.5rem;
+		}
+		#wantEatDiv{
+			background-color:#e5e5e5;
+			width:80%;
+			padding:4rem 0;
+			position:absolute;
+			top:50%;
+			left:10%;
+			display:none;
+			font-size:2.5rem;
+		}
+		.next{
+			background-color:#80bdb4;
+			border-radius:5px;
+			margin-right:1rem;
+			margin-left:1rem;
+			padding:0.5rem 0;
+			width:calc((100% - 4rem )/3);
+			float:left;
+			text-align:center;
+		}
+		.yes{
+			background-color:#b0b37b;
+			border-radius:5px;
+			margin-right:1rem;
+			padding:0.5rem 0;
+			width:calc((100% - 4rem )/3);
+			float:left;
+			text-align:center;
+		}
+		.no{
+			background-color:#8c3737;
+			border-radius:5px;
+			margin-right:1rem;
+			padding:0.5rem 0;
+			width:calc((100% - 4rem )/3);
+			float:left;
+			text-align:center;
+		}
+		.clearAll{
+			background-color:#b02020;
+			border-radius:5px;
+			padding:0.5rem 0;
+			width:calc((100% - 4rem )/3);
+			text-align:center;
+			margin:0 auto;
+			margin-top:3rem;
+		}
+		.clear{
+			clear:both;
+		}
+		.caiInput{
+			width:95%;
+			margin:0 auto;
+			margin-bottom:1rem;
+		}
+		.caiInput > input{
+			border:none;
+			padding:0;
+			width:100%;
+			font-size:3rem;
+		}
+		#showInfo{
+			height:40%;
+			width:80%;
+			margin:0 auto;
+			border-radius:5px;
+			border:1px solid #000;
+			overflow:scroll;
+		}
+		.singleDiv{
+			font-size:4rem;
+			border-bottom:1px solid #000;
+			text-align:center;
+		}
+		#selectedDiv{
+			position:absolute;
+			top:90%;
+			width:100%;
+			text-align:center;
+			font-size:3rem;
+		}
+	</style>
+	<body>
+		<div id="showInfo">
+			
+		</div>
+		<div class="writeBtn" onclick="btnClick()">
+			开始填写要吃的东西
+		</div>
+		<div id="wantEatDiv">
+			<div class="caiInput">
+				<input id="caiInput" type="text" value="" placeholder="请输入菜名"/>
+			</div>
+			<div>
+				<div class="next" onclick="next()">
+					下一个
+				</div>
+				<div class="yes" onclick="yes()">
+					写完了
+				</div>
+				<div class="no" onclick="no()"> 
+					取消
+				</div>
+				<div class="clear"></div>
+				<div class="clearAll" onclick="clearAll()">
+					清空
+				</div>
+			</div>
+		</div>
+		<div id="selectedDiv">
+			
+		</div>
+	</body>
+	<script>
+		var wantInput = document.getElementById("wantEatDiv");
+		function btnClick(){
+			wantInput.style.setProperty("display","block");
+		}
+		var caiArr=new Array();
+		var caiInput = document.getElementById("caiInput");
+		var showInfo = document.getElementById("showInfo");
+		var idIndex = 0;
+		function next(){
+			if(caiInput.value!=""){
+				caiArr.push(caiInput.value);
+				var centerDiv = document.createElement("div");
+				centerDiv.innerHTML=caiInput.value;
+				centerDiv.className="singleDiv";
+				// centerDiv.id="singleDiv_"+idIndex;
+				centerDiv.onclick=function(){
+					// console.log(caiArr);
+					showInfo.removeChild(this);
+					// console.log(this.innerHTML);
+					for(var i=0;i<caiArr.length;i++){
+						if(this.innerHTML==caiArr[i]){
+							caiArr.splice(i,1);
+						}
+					}
+					// console.log(caiArr);
+				}
+				showInfo.appendChild(centerDiv);
+				caiInput.value="";
+				idIndex++;
+			}else{
+				alert("填写要吃的");
+			}	
+		}
+		var selectedDiv = document.getElementById("selectedDiv");
+		function yes(){
+			if(caiArr.length==0){
+				alert("一个吃的都没写");
+				selectedDiv.innerHTML="";
+			}else{
+				var ran = parseInt(Math.random()*caiArr.length);
+				// alert(caiArr[ran]);
+				selectedDiv.innerHTML="今天就决定吃："+caiArr[ran];
+			}
+		}
+		function no(){
+			caiInput.value="";
+			wantInput.style.setProperty("display","none");
+		}
+		function clearAll(){
+			// showInfo.removeChild();
+			var singleArr=document.getElementsByClassName("singleDiv");
+			var len = singleArr.length;
+			for(var i=0;i<len;i++){
+				// console.log(singleArr[i]);
+				// console.log(i);
+				showInfo.removeChild(singleArr[0]);
+				// console.log(singleArr[i]);
+				// console.log(singleArr);
+			}
+			// console.log(document.getElementsByClassName("singleDiv"));
+			caiArr.length=0;
+		}
+	</script>
 </html>
