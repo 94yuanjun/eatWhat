@@ -96,36 +96,100 @@
 			text-align:center;
 			font-size:3rem;
 		}
+		.subDiv{
+			display:none;
+		}
+		.menu{
+			font-size:4rem;
+		}
+		.dayInput{
+			width:95%;
+			margin:0 auto;
+			margin-bottom:1rem;
+		}
+		.dayInput > input{
+			border:none;
+			padding:0;
+			width:100%;
+			font-size:3rem;
+		}
+		#dayBtn{
+		width: 10rem;
+		background-color: #00bfa5;
+		padding: 1rem 0;
+		font-size: 3rem;
+		text-align: center;
+		margin: 0 auto;
+		border-radius: 11px;
+		margin-top: 1rem;
+		}
+		.sign{
+		color: red;
+		font-size: 2.3rem;
+		width: 90%;
+		margin: 0 auto;
+		margin-top: 4rem;
+		}
+		#countDayShow{
+		font-size: 6rem;
+		text-align: center;
+		width: 100%;
+		margin-top: 3rem;
+		}
 	</style>
 	<body>
-		<div id="showInfo">
-			
-		</div>
-		<div class="writeBtn" onclick="btnClick()">
-			开始填写要吃的东西
-		</div>
-		<div id="wantEatDiv">
-			<div class="caiInput">
-				<input id="caiInput" type="text" value="" placeholder="请输入菜名"/>
+		<div id="mainMenu">
+			<div class="menu" value="0">
+				1.计算天数
 			</div>
-			<div>
-				<div class="next" onclick="next()">
-					下一个
-				</div>
-				<div class="yes" onclick="yes()">
-					写完了
-				</div>
-				<div class="no" onclick="no()"> 
-					取消
-				</div>
-				<div class="clear"></div>
-				<div class="clearAll" onclick="clearAll()">
-					清空
-				</div>
+			<div class="menu" value="1">
+				2.吃什么
 			</div>
 		</div>
-		<div id="selectedDiv">
-			
+		<div class="subDiv subDiv_0 ">
+			<div class="dayInput">
+				<input id="dayInput" type="text" value="" placeholder="请输入天数"/>
+			</div>
+			<div id="dayBtn">
+				确认
+			</div>
+			<div id="countDayShow">
+				
+			</div>
+			<div class="sign">
+				目前省厅对“病程记录次数”的要求：如住院天数≤3天，按实际住院天数计数；如住院天数＞3天（不含第3天），按照3＋（住院天数－3）/3计数，如不是整倍数，取整＋1计数。对于哪一天应该写，按照病历书写规范执行
+			</div>
+		</div>
+		<div class="subDiv subDiv_1">
+			<div id="showInfo">
+				
+			</div>
+			<div class="writeBtn" onclick="btnClick()">
+				开始填写要吃的东西
+			</div>
+			<div id="wantEatDiv">
+				<div class="caiInput">
+					<input id="caiInput" type="text" value="" placeholder="请输入菜名"/>
+				</div>
+				<div>
+					<div class="next" onclick="next()">
+						下一个
+					</div>
+					<div class="yes" onclick="yes()">
+						写完了
+					</div>
+					<div class="no" onclick="no()"> 
+						取消
+					</div>
+					<div class="clear"></div>
+					<div class="clearAll" onclick="clearAll()">
+						清空
+					</div>
+				</div>
+			</div>
+			<div id="selectedDiv">
+				
+			</div>
 		</div>
 	</body>
 	<script>
@@ -190,6 +254,39 @@
 			}
 			// console.log(document.getElementsByClassName("singleDiv"));
 			caiArr.length=0;
+		}
+		var menuArr=document.getElementsByClassName("menu");
+		for(var i=0;i<menuArr.length;i++){
+			menuArr[i].onclick = function(){
+				var value = event.target.attributes["value"].value;
+				//console.log(value);
+				var mainMenu = document.getElementById("mainMenu");
+				//mainMenu.setAttribute("display","none");
+				mainMenu.style.display="none";
+				var subDivArr = document.getElementsByClassName("subDiv");
+				for(var j=0;j<subDivArr.length;j++){
+					//subDivArr[j].setAttribute("display","none");
+					subDivArr[j].style.display="none";
+				}
+				var subDiv = document.getElementsByClassName("subDiv_"+value)[0];
+				//console.log(subDiv);
+				//subDiv.setAttribute("display","block");
+				subDiv.style.display="block";
+				
+			}
+		}
+		var dayBtn = document.getElementById("dayBtn");
+		dayBtn.onclick = function(){
+			var x = document.getElementById("dayInput").value;
+			var day;
+			if(x<=3){
+				day = x;
+			}else{
+				day = Math.ceil(3 + (x - 3)/3);
+			}
+			//return day;
+			var countDayShow = document.getElementById("countDayShow");
+			countDayShow.innerHTML="住院天数为"+day;
 		}
 	</script>
 </html>
